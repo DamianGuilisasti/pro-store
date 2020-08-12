@@ -10,7 +10,7 @@
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/pedidos">
           <v-list-item-action>
             <v-icon>mdi-cart-outline</v-icon>
           </v-list-item-action>
@@ -26,7 +26,7 @@
             <v-list-item-title>Productos</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/clientes">
           <v-list-item-action>
             <v-icon>mdi-account-multiple-check-outline</v-icon>
           </v-list-item-action>
@@ -34,7 +34,7 @@
             <v-list-item-title>Clientes</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/usuarios">
           <v-list-item-action>
             <v-icon>mdi-account-group-outline</v-icon>
           </v-list-item-action>
@@ -42,7 +42,7 @@
             <v-list-item-title>Usuarios</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/informes">
           <v-list-item-action>
             <v-icon>mdi-finance</v-icon>
           </v-list-item-action>
@@ -50,7 +50,7 @@
             <v-list-item-title>Informes</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/personalizacion">
           <v-list-item-action>
             <v-icon>mdi-auto-fix</v-icon>
           </v-list-item-action>
@@ -58,7 +58,7 @@
             <v-list-item-title>Personalización</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link to="/admin/configuracion">
           <v-list-item-action>
             <v-icon>mdi-cog</v-icon>
           </v-list-item-action>

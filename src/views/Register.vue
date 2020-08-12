@@ -1,15 +1,15 @@
 <template>
-    <Register/>
+    <RegisterClient/>
 </template>
 
 <script>
 // @ is an alias to /src
-import Register from '@/components/Register.vue'
+import RegisterClient from '@/components/RegisterClient.vue'
 
 export default {
-  name: 'RegisterView',
+  name: 'RegisterClientView',
   components: {
-    Register
+    RegisterClient
   }
 }
 </script>

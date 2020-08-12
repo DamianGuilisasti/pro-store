@@ -4,17 +4,27 @@ import Layout from '@/views/Layout'
 import Admin from '@/views/Admin'
 import Home from '@/views/Home'
 import Dashboard from '@/components/Dashboard'
+import Orders from '@/components/Orders'
 import Products from '@/components/Products'
+import Users from '@/components/Users'
+import Clients from '@/components/Clients'
+import Reports from '@/components/Reports'
+import Customize from '@/components/Customize'
+import Settings from '@/components/Settings'
 import ProductView from '@/components/ProductView'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
-
-
+import RegisterClient from '@/components/RegisterClient'
+import LoginAdmin from '@/components/LoginAdmin'
+import LoginClient from '@/components/LoginClient'
+import ErrorPath from '@/components/ErrorPath'
 
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '*',
+    component: ErrorPath,
+  },
   {
     path: '/',
     component: Layout,
@@ -33,9 +43,12 @@ const routes = [
     ]
   },
   {
-    path: '/Admin',
+    path: '/admin',
     component: Admin,
     name: 'Admin',
+    meta: {
+      requiresAuth: true //Falta realizar la lógica de Auth
+    },
     children: [
       {
         path: '/',
@@ -43,25 +56,55 @@ const routes = [
         name: 'Dashboard'
       },
       {
+        path: 'pedidos',
+        component: Orders,
+        name: 'Orders'
+      },
+      {
         path: 'products',
         component: Products,
         name: 'Products'
+      },
+      {
+        path: 'clientes',
+        component: Clients,
+        name: 'Clients'
+      },
+      {
+        path: 'usuarios',
+        component: Users,
+        name: 'Users'
+      },
+      {
+        path: 'informes',
+        component: Reports,
+        name: 'Reports'
+      },
+      {
+        path: 'personalizacion',
+        component: Customize,
+        name: 'Customize'
+      },
+      {
+        path: 'configuracion',
+        component: Settings,
+        name: 'Settings'
       }
     ]
   },
   {
-    path: '/Account',
+    path: '/account',
     component: Layout,
     name: 'Account',
     children: [
       {
-        path: 'Register',
-        component: Register,
+        path: 'register',
+        component: RegisterClient,
         name: 'Register'
       },
       {
-        path: 'Login',
-        component: Login,
+        path: 'login',
+        component: LoginClient,
         name: 'Login'
       }
     ]

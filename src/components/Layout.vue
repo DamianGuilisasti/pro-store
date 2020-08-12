@@ -15,8 +15,8 @@
         class="hidden-sm-and-down pl-10 ml-4"
       />
       <v-spacer />
-      <v-btn small text>Crear cuenta</v-btn>&nbsp;
-      <v-btn small text>Iniciar Sesion</v-btn>
+      <v-btn small text to="/account/register">Crear cuenta</v-btn>&nbsp;
+      <v-btn small text to="/account/login">Iniciar Sesion</v-btn>
       <v-btn v-on="on" href="/cart" icon>
         <v-badge content="2" value="2" color="green" overlap>
           <v-icon>mdi-cart</v-icon>
