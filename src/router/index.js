@@ -3,15 +3,18 @@ import VueRouter from 'vue-router'
 import Layout from '@/views/Layout'
 import Admin from '@/views/Admin'
 import Home from '@/views/Home'
+import About from '@/views/About'
+import Contact from '@/views/Contact'
 import Dashboard from '@/components/Dashboard'
 import Orders from '@/components/Orders'
 import Products from '@/components/Products'
+import Product from '@/views/Product'
 import Users from '@/components/Users'
 import Clients from '@/components/Clients'
 import Reports from '@/components/Reports'
 import Customize from '@/components/Customize'
 import Settings from '@/components/Settings'
-import ProductView from '@/components/ProductView'
+import ProductsAdmin from '@/components/ProductsAdmin'
 import RegisterClient from '@/components/RegisterClient'
 import LoginAdmin from '@/components/LoginAdmin'
 import LoginClient from '@/components/LoginClient'
@@ -36,9 +39,24 @@ const routes = [
         name: 'Home'
       },
       {
-        path: '/producto',
-        component: ProductView,
-        name: 'ProductView'
+        path: '/nosotros',
+        component: About,
+        name: 'About'
+      },
+      {
+        path: '/productos',
+        component: Products,
+        name: 'Products'
+      },
+      {
+        path: 'producto',
+        component: Product,
+        name: 'Product'
+      },     
+      {
+        path: '/contacto',
+        component: Contact,
+        name: 'Contact'
       }
     ]
   },
@@ -61,9 +79,9 @@ const routes = [
         name: 'Orders'
       },
       {
-        path: 'products',
-        component: Products,
-        name: 'Products'
+        path: 'productos',
+        component: ProductsAdmin,
+        name: 'ProductsAdmin'
       },
       {
         path: 'clientes',

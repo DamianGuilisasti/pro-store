@@ -28,22 +28,22 @@
         <a href="/" class="v-btn">
           <span>Inicio</span>
         </a>
-        <a href="/" class="v-btn">
+        <a href="/nosotros" class="v-btn">
           <span>Nosotros</span>
         </a>
         <v-menu open-on-hover offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on">
+            <v-btn v-on="on" href="/productos">
               <span>Productos</span>
             </v-btn>
           </template>
           <v-card class="mx-auto" max-width="344" outlined>
-            <v-list-item v-for="(item, index) in items" :key="index" href="/shop">
+            <v-list-item v-for="(item, index) in items" :key="index">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-card>
         </v-menu>
-        <v-btn href="/blog">
+        <v-btn href="/contacto">
           <span>Contacto</span>
         </v-btn>
       </v-bottom-navigation>

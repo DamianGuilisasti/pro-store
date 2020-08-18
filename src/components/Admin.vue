@@ -18,7 +18,7 @@
             <v-list-item-title>Pedidos</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/admin/products">
+        <v-list-item link to="/admin/productos">
           <v-list-item-action>
             <v-icon>mdi-clipboard-list-outline</v-icon>
           </v-list-item-action>
