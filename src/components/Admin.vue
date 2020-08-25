@@ -18,14 +18,45 @@
             <v-list-item-title>Pedidos</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/admin/productos">
-          <v-list-item-action>
-            <v-icon>mdi-clipboard-list-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Productos</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+
+        <v-list-group prepend-icon="mdi-clipboard-list-outline">
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Productos</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item link to="/admin/productos">
+            <v-list-item-action>
+              <v-icon>mdi-format-list-numbered</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Ver Productos</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item link to="/admin/productos/agregar">
+            <v-list-item-action>
+              <v-icon>mdi-plus-thick</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Agregar Producto</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+            <v-list-item link to="/admin/categorias">
+            <v-list-item-action>
+              <v-icon>mdi-format-list-bulleted-type</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Categorías</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+
+
+        </v-list-group>
+
         <v-list-item link to="/admin/clientes">
           <v-list-item-action>
             <v-icon>mdi-account-multiple-check-outline</v-icon>
@@ -100,17 +131,9 @@
         </v-avatar>
       </v-btn>
     </v-app-bar>
-
-    <v-main>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col class="shrink">
-            <router-view />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-
+    <div class="main">
+      <router-view />
+    </div>
     <v-footer app>
       <span>Powered by Damián Guilisasti &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -128,3 +151,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.main {
+  padding: 20px;
+}
+</style>

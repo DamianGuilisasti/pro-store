@@ -8,7 +8,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="dark">
-        <v-toolbar-title>Productos</v-toolbar-title>
+        <v-toolbar-title>Categorías</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-card-title>
           <v-text-field
@@ -22,7 +22,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar producto</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar categoría</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -88,19 +88,13 @@ export default {
     dialog: false,
     headers: [
       {
-        text: "Código",
+        text: "Nombre",
         align: "start",
         sortable: false,
-        value: "code",
+        value: "name",
       },
-      { text: "Imagen", value: "name" },
-      { text: "Nombre", value: "name" },
-      { text: "Descripción", value: "description" },
-      { text: "Categoría", value: "category.name" },
-      { text: "Stock", value: "stock" },
-      { text: "Precio", value: "price" },
-      { text: "Precio Oferta", value: "saleprice" },
-      { text: "Estado", value: "state" },
+      { text: "URL Slug", value: "slug" },
+      { text: "Cantidad de Productos", value: "quantity" },
       { text: "Acciones", value: "actions", sortable: false },
     ],
     productsArray: [],
@@ -152,7 +146,7 @@ export default {
     initialize() {
       let me = this;
       axios
-        .get("producto/list")
+        .get("categoria/list")
         .then(function (response) {
           me.productsArray = response.data;
           console.log(response.data);

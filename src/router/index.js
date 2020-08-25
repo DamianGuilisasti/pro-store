@@ -5,6 +5,7 @@ import Admin from '@/views/Admin'
 import Home from '@/views/Home'
 import About from '@/views/About'
 import Contact from '@/views/Contact'
+import Cart from '@/views/Cart'
 import Dashboard from '@/components/Dashboard'
 import Orders from '@/components/Orders'
 import Products from '@/components/Products'
@@ -15,6 +16,8 @@ import Reports from '@/components/Reports'
 import Customize from '@/components/Customize'
 import Settings from '@/components/Settings'
 import ProductsAdmin from '@/components/ProductsAdmin'
+import AddProductAdmin from '@/components/AddProductAdmin'
+import CategoryAdmin from '@/components/CategoryAdmin'
 import RegisterClient from '@/components/RegisterClient'
 import LoginAdmin from '@/components/LoginAdmin'
 import LoginClient from '@/components/LoginClient'
@@ -58,6 +61,12 @@ const routes = [
         component: Contact,
         name: 'Contact'
       }
+      ,     
+      {
+        path: '/carrito',
+        component: Cart,
+        name: 'Cart'
+      }
     ]
   },
   {
@@ -82,6 +91,16 @@ const routes = [
         path: 'productos',
         component: ProductsAdmin,
         name: 'ProductsAdmin'
+      },
+      {
+        path: 'productos/agregar',
+        component: AddProductAdmin,
+        name: 'AddProductAdmin'
+      },
+      {
+        path: 'categorias',
+        component: CategoryAdmin,
+        name: 'CategoryAdmin'
       },
       {
         path: 'clientes',
