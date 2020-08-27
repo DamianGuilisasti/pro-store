@@ -84,7 +84,7 @@
 import axios from "axios";
 export default {
   data: () => ({
-    search: '',
+    search: "",
     dialog: false,
     headers: [
       {
