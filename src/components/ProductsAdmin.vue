@@ -1,89 +1,151 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="productsArray"
-    :search="search"
-    sort-by="code"
-    class="elevation-1"
-  >
-    <template v-slot:top>
-      <v-toolbar flat color="dark">
-        <v-toolbar-title>Productos</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
-        <v-card-title>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Buscar..."
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-card-title>
-        <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar producto</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="productsArray"
+      :search="search"
+      sort-by="code"
+      class="elevation-1"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="dark">
+          <v-toolbar-title>Productos</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical></v-divider>
+          <v-card-title>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Buscar..."
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-spacer></v-spacer>
+          <v-dialog v-model="dialog" max-width="500px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar producto</v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ formTitle }}</span>
+              </v-card-title>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.code" label="Código"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Nombre"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.description" label="Descripción"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.category" label="Categoría"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.stock" label="Stock"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.price" label="Precio"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.code" label="Código"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.name" label="Nombre"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.description" label="Descripción"></v-text-field>
+                    </v-col>
+                    <v-col class="d-flex" cols="12" sm="6" md="4">
+                      <v-select
+                        v-model="editedItem.category"
+                        :items="categoryList"
+                        label="Seleccione categoría"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.stock" label="Stock"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.price" label="Precio de costo"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="12" md="12">
+                      <input type="file" id="file" ref="file" @change="onFileUpload" />
+
+                      <!-- <v-file-input
+                        v-model="editedItem.image"
+                        color="deep-purple accent-4"
+                        counter
+                        label="File input"
+                        multiple
+                        placeholder="Select your files"
+                        prepend-icon="mdi-paperclip"
+                        outlined
+                        :show-size="1000"
+                        @change="selectFile"
+                        ref="image"
+                      > 
+                        <template v-slot:selection="{ index, text }">
+                          <v-chip
+                            v-if="index < 2"
+                            color="deep-purple accent-4"
+                            dark
+                            label
+                            small
+                          >{{ text }}</v-chip>
+
+                          <span
+                            v-else-if="index === 2"
+                            class="overline grey--text text--darken-3 mx-2"
+                          >+{{ files.length - 2 }} File(s)</span>
+                        </template>
+                      </v-file-input>-->
+                    </v-col>
+
+                    <!--<v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.saleprice" label="Precio Oferta"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.state" label="Estado"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+                    </v-col>-->
+                  </v-row>
+                </v-container>
+              </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="save">Guardar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
 
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
-  </v-data-table>
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">Reset</v-btn>
+      </template>
+    </v-data-table>
+
+    <div class="text-center ma-2">
+      <v-snackbar v-model="snackbarAdd" color="success">
+        <p>Producto agregado correctamente.</p>
+        <template v-slot:action="{ attrs }">
+          <v-btn dark text v-bind="attrs" @click="snackbarAdd = false">Cerrar</v-btn>
+        </template>
+      </v-snackbar>
+
+      <v-snackbar v-model="snackbarUpdate" color="success">
+        <p>Producto actualizado correctamente.</p>
+        <template v-slot:action="{ attrs }">
+          <v-btn dark text v-bind="attrs" @click="snackbarUpdate = false">Cerrar</v-btn>
+        </template>
+      </v-snackbar>
+
+      <v-snackbar v-model="snackbarDelete" color="warning">
+        <p>Producto eliminado correctamente.</p>
+        <template v-slot:action="{ attrs }">
+          <v-btn dark text v-bind="attrs" @click="snackbarDelete = false">Cerrar</v-btn>
+        </template>
+      </v-snackbar>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
   data: () => ({
+    snackbarAdd: false,
+    snackbarUpdate: false,
+    snackbarDelete: false,
     search: "",
     dialog: false,
     headers: [
@@ -93,7 +155,7 @@ export default {
         sortable: false,
         value: "code",
       },
-      { text: "Imagen", value: "name" },
+      { text: "Imagen", value: "image" },
       { text: "Nombre", value: "name" },
       { text: "Descripción", value: "description" },
       { text: "Categoría", value: "category.name" },
@@ -107,8 +169,13 @@ export default {
     categoryList: [],
     editedIndex: -1,
     editedItem: {
+      code: "",
       name: "",
       description: "",
+      category: "",
+      stock: "",
+      price: "",
+      image: "",
     },
     defaultItem: {
       name: "",
@@ -134,15 +201,18 @@ export default {
   },
 
   methods: {
+    onFileUpload(event) {
+      this.editedItem.image = event.target.files[0];
+    },
     categorySelect() {
       let me = this;
-      let categoryArray = [];
+      let categoryList = [];
       axios
         .get("categoria/list")
         .then(function (response) {
-          categoryArray = response.data;
-          categoryArray.map(function (i) {
-            //me.categoryList.push({})
+          categoryList = response.data;
+          categoryList.map(function (i) {
+            me.categoryList.push({ text: i.name, value: i._id });
           });
         })
         .catch(function (error) {
@@ -183,10 +253,62 @@ export default {
     },
 
     save() {
+      let me = this;
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        console.log(this.editedItem);
+        axios
+          .put("producto/update", {
+            _id: this.editedItem._id,
+            code: this.editedItem.code,
+            name: this.editedItem.name,
+            description: this.editedItem.description,
+            category: this.editedItem.category,
+            stock: this.editedItem.stock,
+            price: this.editedItem.price,
+          })
+          .then(function (response) {
+            me.initialize();
+            me.snackbarUpdate = true;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       } else {
-        this.desserts.push(this.editedItem);
+        let formData = new FormData();
+        formData.append("code", this.editedItem.code);
+        formData.append("name", this.editedItem.name);
+        formData.append("description", this.editedItem.description);
+        formData.append("category", this.editedItem.category);
+        formData.append("stock", this.editedItem.stock);
+        formData.append("price", this.editedItem.price);
+        formData.append("file", this.editedItem.image);
+
+        axios
+          .post(
+            "producto/add",
+            formData,
+            /*             {
+              code: this.editedItem.code,
+              name: this.editedItem.name,
+              description: this.editedItem.description,
+              category: this.editedItem.category,
+              stock: this.editedItem.stock,
+              price: this.editedItem.price,
+              image: formData,
+            } ,*/
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          )
+          .then(function (response) {
+            me.initialize();
+            me.snackbarAdd = true;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
       this.close();
     },
