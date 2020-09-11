@@ -56,7 +56,7 @@
                       <v-text-field v-model="editedItem.price" label="Precio de costo"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
-                      <input type="file" id="file" ref="file" @change="onFileUpload" />
+                      <input type="file" @change="onFileUpload" />
 
                       <!-- <v-file-input
                         v-model="editedItem.image"
@@ -155,7 +155,7 @@ export default {
         sortable: false,
         value: "code",
       },
-      { text: "Imagen", value: "image" },
+      { text: "Imagen", value: "primaryimage.imageURL" },
       { text: "Nombre", value: "name" },
       { text: "Descripción", value: "description" },
       { text: "Categoría", value: "category.name" },
@@ -281,25 +281,16 @@ export default {
         formData.append("category", this.editedItem.category);
         formData.append("stock", this.editedItem.stock);
         formData.append("price", this.editedItem.price);
-        formData.append("file", this.editedItem.image);
+        formData.append("file", this.editedItem.image); //de acá me está tomando el single('file')
 
         axios
           .post(
-            "producto/add",
+            "producto/add", 
             formData,
-            /*             {
-              code: this.editedItem.code,
-              name: this.editedItem.name,
-              description: this.editedItem.description,
-              category: this.editedItem.category,
-              stock: this.editedItem.stock,
-              price: this.editedItem.price,
-              image: formData,
-            } ,*/
             {
               headers: {
                 "Content-Type": "multipart/form-data",
-              },
+              }
             }
           )
           .then(function (response) {

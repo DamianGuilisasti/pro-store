@@ -100,7 +100,7 @@
                     class="white--text align-end"
                     :aspect-ratio="16/9"
                     height="200px"
-                    :src="pro.src"
+                    :src="pro.primaryimage.imageURL"
                   >
                     <v-card-title>{{pro.type}}</v-card-title>
                     <v-expand-transition>
