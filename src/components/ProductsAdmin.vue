@@ -56,6 +56,7 @@
                       <v-text-field v-model="editedItem.price" label="Precio de costo"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="12" md="12">
+                      Imagen principal
                       <input type="file" @change="onFileUpload" />
 
                       <!-- <v-file-input

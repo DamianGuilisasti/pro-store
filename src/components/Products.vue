@@ -109,7 +109,7 @@
                         class="d-flex transition-fast-in-fast-out white darken-2 v-card--reveal display-3 white--text"
                         style="height: 100%;"
                       >
-                        <v-btn v-if="hover" href="/product" class outlined>VER PRODUCTO</v-btn>
+                        <v-btn v-if="hover" @click="openProductDetail(pro._id)" class outlined>VER PRODUCTO</v-btn>
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -317,6 +317,9 @@ export default {
           console.log(error);
         });
     },
+    openProductDetail(id) {
+      this.$router.push(`/producto/${id}`);
+    }
   },
 };
 </script>

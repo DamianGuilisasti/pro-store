@@ -22,6 +22,7 @@ import RegisterClient from '@/components/RegisterClient'
 import LoginAdmin from '@/components/LoginAdmin'
 import LoginClient from '@/components/LoginClient'
 import ErrorPath from '@/components/ErrorPath'
+import SocialMedia from '@/components/SocialMedia'
 
 
 Vue.use(VueRouter)
@@ -52,7 +53,7 @@ const routes = [
         name: 'Products'
       },
       {
-        path: 'producto',
+        path: 'producto/:id',
         component: Product,
         name: 'Product'
       },     
@@ -126,6 +127,11 @@ const routes = [
         path: 'configuracion',
         component: Settings,
         name: 'Settings'
+      },
+      {
+        path: 'configuracion/redes-sociales',
+        component: SocialMedia,
+        name: 'SocialMedia'
       }
     ]
   },

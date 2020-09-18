@@ -38,8 +38,8 @@
             </v-btn>
           </template>
           <v-card class="mx-auto" max-width="344" outlined>
-            <v-list-item v-for="(item, index) in items" :key="index">
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item v-for="(item, index) in categories" :key="index">
+              <v-list-item-title @click="goCategory(index, item)">{{ item.name }}</v-list-item-title>
             </v-list-item>
           </v-card>
         </v-menu>
@@ -52,36 +52,79 @@
     <v-footer :padless="true">
       <v-card flat tile width="100%" class="secondary white--text text-center">
         <v-card-text>
-          <v-btn class="mx-4 white--text" icon>
+          <v-btn
+            v-if="configurationArray.socialMedia.facebook !== null && configurationArray.socialMedia.facebook !== '' && configurationArray.socialMedia.facebook !== undefined"
+            link
+            :href="configurationArray.socialMedia.facebook"
+            class="mx-4 white--text"
+            icon
+            target="_blank"
+          >
             <v-icon size="24px">mdi-facebook</v-icon>
           </v-btn>
-          <v-btn class="mx-4 white--text" icon>
+          <v-btn
+            v-if="configurationArray.socialMedia.instagram !== null && configurationArray.socialMedia.instagram !== '' && configurationArray.socialMedia.instagram !== undefined"
+            link
+            :href="configurationArray.socialMedia.instagram"
+            class="mx-4 white--text"
+            icon
+            target="_blank"
+          >
             <v-icon size="24px">mdi-instagram</v-icon>
           </v-btn>
-          <v-btn class="mx-4 white--text" icon>
+          <v-btn
+            v-if="configurationArray.socialMedia.twitter !== null && configurationArray.socialMedia.twitter !== '' && configurationArray.socialMedia.twitter !== undefined"
+            link
+            :href="configurationArray.socialMedia.twitter"
+            class="mx-4 white--text"
+            icon
+            target="_blank"
+          >
             <v-icon size="24px">mdi-twitter</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="configurationArray.socialMedia.google !== null && configurationArray.socialMedia.google !== '' && configurationArray.socialMedia.google !== undefined"
+            link
+            :href="configurationArray.socialMedia.google"
+            class="mx-4 white--text"
+            icon
+            target="_blank"
+          >
+            <v-icon size="24px">mdi-google</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="configurationArray.socialMedia.youtube !== null && configurationArray.socialMedia.youtube !== '' && configurationArray.socialMedia.youtube !== undefined"
+            link
+            :href="configurationArray.socialMedia.youtube"
+            class="mx-4 white--text"
+            icon
+            target="_blank"
+          >
+            <v-icon size="24px">mdi-youtube</v-icon>
           </v-btn>
         </v-card-text>
 
         <v-card-text
+          v-if="configurationArray.footerInfo !== null && configurationArray.footerInfo !== '' && configurationArray.footerInfo !== undefined"
           class="white--text pt-0"
-        >Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</v-card-text>
+        >{{configurationArray.footerInfo}}</v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-text class="white--text">
           {{ new Date().getFullYear() }} —
-          <strong>ShipIT</strong>
+          <strong>ProStore</strong>
         </v-card-text>
       </v-card>
     </v-footer>
   </v-app>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      items: [
+      categories: [
         { title: "T-Shirts" },
         { title: "Jackets" },
         { title: "Shirts" },
@@ -89,13 +132,54 @@ export default {
         { title: "Shoes" },
       ],
       activeBtn: 1,
+      configurationArray: [],
+      configurationArray: {
+        socialMedia: {
+          facebook: null,
+          instagram: null,
+          twitter: null,
+          youtube: null,
+          google: null
+        },
+      },
     };
+  },
+  created() {
+    this.initialize();
+    this.getCategories();
+  },
+  methods: {
+    initialize() {
+      let me = this;
+      axios
+        .get("configuracion/list")
+        .then(function (response) {
+          me.configurationArray = response.data[0];
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getCategories() {
+      let me = this;
+      axios
+        .get("categoria/list")
+        .then(function (response) {
+          me.categories = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    goCategory(index, item) {
+      this.$router.push(`/categoria/${item._id}`);
+    },
   },
 };
 </script>
 
 <style scoped>
-  .v-main .v-content{
-        padding: 0px 0px 0px !important;
-  }
+.v-main .v-content {
+  padding: 0px 0px 0px !important;
+}
 </style>

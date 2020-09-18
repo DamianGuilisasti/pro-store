@@ -44,7 +44,7 @@
             </v-list-item-content>
           </v-list-item>
 
-            <v-list-item link to="/admin/categorias">
+          <v-list-item link to="/admin/categorias">
             <v-list-item-action>
               <v-icon>mdi-format-list-bulleted-type</v-icon>
             </v-list-item-action>
@@ -52,9 +52,6 @@
               <v-list-item-title>Categorías</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-
-
         </v-list-group>
 
         <v-list-item link to="/admin/clientes">
@@ -89,14 +86,42 @@
             <v-list-item-title>Personalización</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/admin/configuracion">
+
+        <!--         <v-list-item link to="/admin/configuracion">
           <v-list-item-action>
             <v-icon>mdi-cog</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Configuración</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item>-->
+
+        <v-list-group prepend-icon="mdi-cog">
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Configuración</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item link to="/admin/configuracion/redes-sociales">
+            <v-list-item-action>
+              <v-icon>mdi-link-variant</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Redes Sociales</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item link to="/admin/configuracion/redes-sociales">
+            <v-list-item-action>
+              <v-icon>mdi-link-variant</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Información Nosotros</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+
         <v-divider></v-divider>
         <v-list-item link to="/">
           <v-list-item-action>
