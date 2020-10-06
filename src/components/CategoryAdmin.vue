@@ -23,7 +23,9 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar categoría</v-btn>
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
+                >Agregar categoría</v-btn
+              >
             </template>
             <v-card>
               <v-card-title>
@@ -34,7 +36,10 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="12" md="12">
-                      <v-text-field v-model="editedItem.name" label="Nombre"></v-text-field>
+                      <v-text-field
+                        v-model="editedItem.name"
+                        label="Nombre"
+                      ></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -42,7 +47,9 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="close"
+                  >Cancelar</v-btn
+                >
                 <v-btn color="blue darken-1" text @click="save">Guardar</v-btn>
               </v-card-actions>
             </v-card>
@@ -64,21 +71,27 @@
       <v-snackbar v-model="snackbarAdd" color="success">
         <p>Categoría agregada correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarAdd = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarAdd = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
 
       <v-snackbar v-model="snackbarUpdate" color="success">
         <p>Categoría actualizada correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarUpdate = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarUpdate = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
 
       <v-snackbar v-model="snackbarDelete" color="warning">
         <p>Categoría eliminada correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarDelete = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarDelete = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
     </div>
@@ -137,7 +150,6 @@ export default {
         .get("categoria/list")
         .then(function (response) {
           me.categoryArray = response.data;
-          console.log(response.data);
         })
         .catch(function (error) {
           console.log(error);
@@ -150,11 +162,16 @@ export default {
       this.dialog = true;
     },
     deleteItem(item) {
-      const index = this.categoryArray.indexOf(item);
+      let me = this;
+      let categoryId = item._id;
+
       confirm("¿Estás seguro/a de querer eliminar esta categoría?") &&
         axios
           .delete("categoria/remove", {
-            _id: item._id
+            params: { id: categoryId },
+            headers: {
+              token: me.$store.state.token,
+            },
           })
           .then(function (response) {
             me.initialize();
@@ -175,13 +192,18 @@ export default {
 
     save() {
       let me = this;
+      let header = { token: this.$store.state.token };
+      let configuration = { headers: header };
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
         axios
-          .put("categoria/update", {
-            _id: this.editedItem._id,
-            name: this.editedItem.name,
-          })
+          .put(
+            "categoria/update",
+            {
+              _id: this.editedItem._id,
+              name: this.editedItem.name,
+            },
+            configuration
+          )
           .then(function (response) {
             me.initialize();
             me.snackbarUpdate = true;
@@ -191,9 +213,13 @@ export default {
           });
       } else {
         axios
-          .post("categoria/add", {
-            name: this.editedItem.name,
-          })
+          .post(
+            "categoria/add",
+            {
+              name: this.editedItem.name,
+            },
+            configuration
+          )
           .then(function (response) {
             me.initialize();
             me.snackbarAdd = true;

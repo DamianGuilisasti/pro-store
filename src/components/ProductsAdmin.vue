@@ -7,6 +7,25 @@
       sort-by="code"
       class="elevation-1"
     >
+      <template v-slot:item.image="{ item }">
+        <img
+          :src="item.primaryimage.imageURL"
+          style="width: 70px; height: 70px"
+        />
+      </template>
+
+      <template v-slot:item.stock="{ item }">
+        <v-chip :color="getColor(item.stock)" dark>
+          {{ item.stock }}
+        </v-chip>
+      </template>
+
+      <template v-slot:item.state="{ item }">
+        <v-chip :color="getStateColor(item.state)" dark>
+          {{ getState(item.state) }}
+        </v-chip>
+      </template>
+
       <template v-slot:top>
         <v-toolbar flat color="dark">
           <v-toolbar-title>Productos</v-toolbar-title>
@@ -23,7 +42,9 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">Agregar producto</v-btn>
+              <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
+                >Agregar producto</v-btn
+              >
             </template>
             <v-card>
               <v-card-title>
@@ -32,74 +53,95 @@
 
               <v-card-text>
                 <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.code" label="Código"></v-text-field>
+                  <v-row align="center" justify="space-around">
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        v-model="editedItem.code"
+                        label="Código"
+                      ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.name" label="Nombre"></v-text-field>
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        v-model="editedItem.name"
+                        label="Nombre"
+                      ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.description" label="Descripción"></v-text-field>
+                  </v-row>
+                  <v-row align="center" justify="space-around">
+                    <v-col cols="12" sm="12" md="12">
+                      <v-textarea
+                        v-model="editedItem.description"
+                        solo
+                        name="input-7-4"
+                        label="Descripción"
+                        outlined
+                      ></v-textarea>
                     </v-col>
-                    <v-col class="d-flex" cols="12" sm="6" md="4">
+                  </v-row>
+                  <v-row align="center" justify="space-around">
+                    <v-col class="d-flex" cols="12" sm="6" md="6">
                       <v-select
                         v-model="editedItem.category"
                         :items="categoryList"
                         label="Seleccione categoría"
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.stock" label="Stock"></v-text-field>
+                    <v-col class="d-flex" cols="12" sm="6" md="6">
+                      <v-btn tile color="success">
+                        <v-icon left> mdi-plus </v-icon>
+                        nueva categoría
+                      </v-btn>
                     </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.price" label="Precio de costo"></v-text-field>
+                  </v-row>
+                  <v-row align="center" justify="space-around">
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        v-model="editedItem.stock"
+                        label="Stock"
+                      ></v-text-field>
                     </v-col>
-                    <v-col cols="12" sm="12" md="12">
-                      Imagen principal
-                      <input type="file" @change="onFileUpload" />
-
-                      <!-- <v-file-input
-                        v-model="editedItem.image"
-                        color="deep-purple accent-4"
-                        counter
-                        label="File input"
-                        multiple
-                        placeholder="Select your files"
-                        prepend-icon="mdi-paperclip"
-                        outlined
-                        :show-size="1000"
-                        @change="selectFile"
-                        ref="image"
-                      > 
-                        <template v-slot:selection="{ index, text }">
-                          <v-chip
-                            v-if="index < 2"
-                            color="deep-purple accent-4"
-                            dark
-                            label
-                            small
-                          >{{ text }}</v-chip>
-
-                          <span
-                            v-else-if="index === 2"
-                            class="overline grey--text text--darken-3 mx-2"
-                          >+{{ files.length - 2 }} File(s)</span>
-                        </template>
-                      </v-file-input>-->
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        v-model="editedItem.price"
+                        label="Precio de costo"
+                      ></v-text-field>
                     </v-col>
 
-                    <!--<v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.saleprice" label="Precio Oferta"></v-text-field>
-                    </v-col>-->
+                    <v-col cols="12" sm="12" md="12" v-if="imagepreview === ''">
+                      <v-file-input
+                        label="Imagen principal"
+                        chips
+                        v-model="primaryImagePreview"
+                        accept="image/*"
+                        show-size
+                      ></v-file-input>
+                    </v-col>
+
+                    <v-col cols="12" sm="12" md="12" v-if="imagepreview !== ''">
+                      <img
+                        :src="imagepreview"
+                        style="width: 100px; height: 100px"
+                      />
+
+                      <v-icon
+                        @click="deletePreview"
+                        dark
+                        color="red"
+                        style="position: absolute; margin-top: 5px; left: 40px"
+                      >
+                        mdi-close
+                      </v-icon>
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Guardar</v-btn>
+                <v-btn class="ma-2" @click="close">Cancelar</v-btn>
+                <v-btn class="ma-2" color="success" @click="save">
+                  Guardar
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -119,21 +161,27 @@
       <v-snackbar v-model="snackbarAdd" color="success">
         <p>Producto agregado correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarAdd = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarAdd = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
 
       <v-snackbar v-model="snackbarUpdate" color="success">
         <p>Producto actualizado correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarUpdate = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarUpdate = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
 
       <v-snackbar v-model="snackbarDelete" color="warning">
         <p>Producto eliminado correctamente.</p>
         <template v-slot:action="{ attrs }">
-          <v-btn dark text v-bind="attrs" @click="snackbarDelete = false">Cerrar</v-btn>
+          <v-btn dark text v-bind="attrs" @click="snackbarDelete = false"
+            >Cerrar</v-btn
+          >
         </template>
       </v-snackbar>
     </div>
@@ -144,6 +192,20 @@
 import axios from "axios";
 export default {
   data: () => ({
+    loading: "",
+    primaryImagePreview: null,
+    editedItem: {
+      code: "",
+      name: "",
+      description: "",
+      category: "",
+      stock: "",
+      price: "",
+      primaryimage: {
+        imageURL: "",
+      },
+    },
+    imagepreview: "",
     snackbarAdd: false,
     snackbarUpdate: false,
     snackbarDelete: false,
@@ -156,7 +218,7 @@ export default {
         sortable: false,
         value: "code",
       },
-      { text: "Imagen", value: "primaryimage.imageURL" },
+      { text: "Imagen", value: "image" },
       { text: "Nombre", value: "name" },
       { text: "Descripción", value: "description" },
       { text: "Categoría", value: "category.name" },
@@ -169,15 +231,6 @@ export default {
     productsArray: [],
     categoryList: [],
     editedIndex: -1,
-    editedItem: {
-      code: "",
-      name: "",
-      description: "",
-      category: "",
-      stock: "",
-      price: "",
-      image: "",
-    },
     defaultItem: {
       name: "",
       description: "",
@@ -191,6 +244,21 @@ export default {
   },
 
   watch: {
+    primaryImagePreview: function () {
+      let me = this;
+      this.editedItem.image = event.target.files[0];
+
+      // Creamos el objeto/instancia de la clase FileReader
+      let reader = new FileReader();
+
+      // Leemos el archivo subido y se lo pasamos a nuestro FileReader
+      reader.readAsDataURL(event.target.files[0]);
+
+      // Le decimos que cuando esté listo, ejecute el código interno
+      reader.onload = function () {
+        me.imagepreview = reader.result;
+      };
+    },
     dialog(val) {
       val || this.close();
     },
@@ -202,8 +270,37 @@ export default {
   },
 
   methods: {
+    getStateColor(state) {
+      if (state === 1) return "green";
+      else return "red";
+    },
+    getState(state) {
+      if (state === 1) return "Activo";
+      else return "Inactivo";
+    },
+    getColor(stock) {
+      if (stock < 5) return "red";
+      else if (stock < 15) return "orange";
+      else return "green";
+    },
     onFileUpload(event) {
+      let me = this;
       this.editedItem.image = event.target.files[0];
+
+      // Creamos el objeto/instancia de la clase FileReader
+      let reader = new FileReader();
+
+      // Leemos el archivo subido y se lo pasamos a nuestro FileReader
+      reader.readAsDataURL(event.target.files[0]);
+
+      // Le decimos que cuando esté listo, ejecute el código interno
+      reader.onload = function () {
+        me.imagepreview = reader.result;
+      };
+    },
+    deletePreview() {
+      this.imagepreview = "";
+      this.primaryImagePreview = null;
     },
     categorySelect() {
       let me = this;
@@ -222,11 +319,11 @@ export default {
     },
     initialize() {
       let me = this;
+      me.imagepreview = "";
       axios
         .get("producto/list")
         .then(function (response) {
           me.productsArray = response.data;
-          console.log(response.data);
         })
         .catch(function (error) {
           console.log(error);
@@ -246,6 +343,7 @@ export default {
     },
 
     close() {
+      this.imagepreview = "";
       this.dialog = false;
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
@@ -256,7 +354,6 @@ export default {
     save() {
       let me = this;
       if (this.editedIndex > -1) {
-        console.log(this.editedItem);
         axios
           .put("producto/update", {
             _id: this.editedItem._id,
@@ -285,15 +382,12 @@ export default {
         formData.append("file", this.editedItem.image); //de acá me está tomando el single('file')
 
         axios
-          .post(
-            "producto/add", 
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              }
-            }
-          )
+          .post("producto/add", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              token: me.$store.state.token,
+            },
+          })
           .then(function (response) {
             me.initialize();
             me.snackbarAdd = true;
@@ -307,3 +401,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-btn--fab.v-size--small {
+  height: 30px;
+  width: 30px;
+}
+</style

@@ -16,13 +16,14 @@ import Reports from '@/components/Reports'
 import Customize from '@/components/Customize'
 import Settings from '@/components/Settings'
 import ProductsAdmin from '@/components/ProductsAdmin'
-import AddProductAdmin from '@/components/AddProductAdmin'
 import CategoryAdmin from '@/components/CategoryAdmin'
 import RegisterClient from '@/components/RegisterClient'
 import LoginAdmin from '@/components/LoginAdmin'
 import LoginClient from '@/components/LoginClient'
 import ErrorPath from '@/components/ErrorPath'
-import SocialMedia from '@/components/SocialMedia'
+import SocialMediaAdmin from '@/components/SocialMediaAdmin'
+import AboutUsAdmin from '@/components/AboutUsAdmin'
+import store from '../store'
 
 
 Vue.use(VueRouter)
@@ -37,6 +38,11 @@ const routes = [
     component: Layout,
     name: 'Layout',
     children: [
+      {
+        path: 'login',
+        component: LoginAdmin,
+        name: 'LoginAdmin'
+      },
       {
         path: '/',
         component: Home,
@@ -56,13 +62,13 @@ const routes = [
         path: 'producto/:id',
         component: Product,
         name: 'Product'
-      },     
+      },
       {
         path: '/contacto',
         component: Contact,
         name: 'Contact'
       }
-      ,     
+      ,
       {
         path: '/carrito',
         component: Cart,
@@ -75,7 +81,7 @@ const routes = [
     component: Admin,
     name: 'Admin',
     meta: {
-      requiresAuth: true //Falta realizar la lógica de Auth
+      SellerRol: true
     },
     children: [
       {
@@ -92,11 +98,6 @@ const routes = [
         path: 'productos',
         component: ProductsAdmin,
         name: 'ProductsAdmin'
-      },
-      {
-        path: 'productos/agregar',
-        component: AddProductAdmin,
-        name: 'AddProductAdmin'
       },
       {
         path: 'categorias',
@@ -116,22 +117,36 @@ const routes = [
       {
         path: 'informes',
         component: Reports,
-        name: 'Reports'
+        name: 'Reports',
+        meta: {
+          AdminRol: true
+        },
       },
       {
         path: 'personalizacion',
         component: Customize,
-        name: 'Customize'
+        name: 'Customize',
+        meta: {
+          AdminRol: true
+        },
       },
       {
         path: 'configuracion',
         component: Settings,
-        name: 'Settings'
+        name: 'Settings',
+        meta: {
+          AdminRol: true
+        },
       },
       {
         path: 'configuracion/redes-sociales',
-        component: SocialMedia,
-        name: 'SocialMedia'
+        component: SocialMediaAdmin,
+        name: 'SocialMediaAdmin'
+      },
+      {
+        path: 'configuracion/informacion-nosotros',
+        component: AboutUsAdmin,
+        name: 'AboutUsAdmin'
       }
     ]
   },
@@ -154,10 +169,22 @@ const routes = [
   }
 ]
 
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => { //to hacia donde quiero ir - from desde donde vengo y next es para que continue haciendo lo que estaba haciendo.
+  const rutaProtegida = to.matched.some(record => record.meta.SellerRol);
+  if(rutaProtegida && store.state.token === ''){
+    next({name: 'LoginAdmin'});
+  }
+  else{
+    next();
+  }
+  next();
 })
 
 export default router

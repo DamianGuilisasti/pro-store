@@ -104,7 +104,7 @@ export default {
     SocialMediaArray: [],
   }),
   created() {
-    this.firstObjetct();
+    this.getData();
     this.getSocialMedia();
   },
   methods: {
@@ -122,7 +122,7 @@ export default {
     updateSocialMedia() {
       let me = this;
       axios
-        .put("configuracion/update", {
+        .put("configuracion/updateSocialMedia", {
           _id: this.dataId,
           socialMedia: {
             facebook: this.SocialMediaArray.facebook,
@@ -140,7 +140,7 @@ export default {
           me.snackbarError = true;
         });
     },
-    firstObjetct() {
+    getData() {
       let me = this;
       axios
         .get("configuracion/list")
@@ -148,22 +148,7 @@ export default {
           if (response.data.length > 0) {
             me.dataId = response.data[0]._id;
           } else {
-            axios
-              .post("configuracion/add", {
-                socialMedia: {
-                  facebook: "",
-                  instagram: "",
-                  google: "",
-                  twitter: "",
-                  youtube: "",
-                },
-              })
-              .then(function (response) {
-                me.dataId = response.data._id;
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+            // snackbar que diga que no se pudieron obtener los datos.
           }
         })
         .catch(function (error) {

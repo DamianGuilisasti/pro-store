@@ -41,6 +41,22 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12" sm="4">
+        <v-card class="mx-auto" max-width="344" color="info">
+          <v-card-title>
+            <h1>$15.000</h1>
+          </v-card-title>
+          <v-card-text>
+
+            <h1>Gastos</h1>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text color="deep-purple accent-4">Agregar nuevo gasto</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -61,7 +77,6 @@ export default {
         .get("producto/list")
         .then(function (response) {
           me.productsArray = response.data;
-          console.log(me.productsArray.length);
           me.quantity = me.productsArray.length;
         })
         .catch(function (error) {
