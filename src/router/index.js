@@ -23,6 +23,7 @@ import LoginClient from '@/components/LoginClient'
 import ErrorPath from '@/components/ErrorPath'
 import SocialMediaAdmin from '@/components/SocialMediaAdmin'
 import AboutUsAdmin from '@/components/AboutUsAdmin'
+import CatalogAdmin from '@/components/CatalogAdmin'
 import store from '../store'
 
 
@@ -147,6 +148,11 @@ const routes = [
         path: 'configuracion/informacion-nosotros',
         component: AboutUsAdmin,
         name: 'AboutUsAdmin'
+      },
+      {
+        path: 'configuracion/catalogo',
+        component: CatalogAdmin,
+        name: 'CatalogAdmin'
       }
     ]
   },

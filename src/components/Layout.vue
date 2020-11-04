@@ -27,11 +27,38 @@
       >&nbsp;
       <v-btn small text to="/account/register">Crear cuenta</v-btn>&nbsp;
       <v-btn small text to="/account/login">Iniciar Sesion</v-btn>
-      <v-btn v-on="on" href="/cart" icon>
-        <v-badge content="2" value="2" color="green" overlap>
-          <v-icon>mdi-cart</v-icon>
-        </v-badge>
-      </v-btn>
+
+      <v-menu bottom min-width="300px" rounded offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" icon x-large>
+            <v-badge content="2" value="2" color="green" overlap>
+              <v-icon>mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-list-item-content class="justify-center">
+            <v-row>
+            <v-col cols="6"> <img src="../assets/logo.png" alt="" /></v-col>
+            <v-col cols="6">
+              <h3 class="pt-4">Mochila Everlast</h3>
+              <p class="caption mt-1">1x $2500.00</p></v-col
+            >
+            </v-row>
+            <div class="mx-auto text-center">
+              <v-divider class="my-3"></v-divider>
+              <v-row>
+              <v-col cols="6"><h4>SUBTOTAL: </h4></v-col>
+              <v-col cols="6"><h2>$2500.00 </h2></v-col>
+              </v-row>
+              <v-btn depressed rounded text> Ver carrito </v-btn>
+              <v-btn class="mt-3" color="primary" block depressed @click=""> 
+                Ir a pagar
+              </v-btn>
+            </div>
+          </v-list-item-content>
+        </v-card>
+      </v-menu>
     </v-app-bar>
     <v-content>
       <v-bottom-navigation :value="activeBtn" color="primary" horizontal>

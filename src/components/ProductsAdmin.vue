@@ -106,10 +106,40 @@
                         label="Precio de costo"
                       ></v-text-field>
                     </v-col>
+                  </v-row>
 
+                  <v-row align="center" justify="space-around">
                     <v-col cols="12" sm="12" md="12" v-if="imagepreview === ''">
                       <v-file-input
                         label="Imagen principal"
+                        chips
+                        v-model="primaryImagePreview"
+                        accept="image/*"
+                        show-size
+                      ></v-file-input>
+                    </v-col>
+
+                    <v-col cols="12" sm="12" md="12" v-if="imagepreview !== ''">
+                      <img
+                        :src="imagepreview"
+                        style="width: 100px; height: 100px"
+                      />
+
+                      <v-icon
+                        @click="deletePreview"
+                        dark
+                        color="red"
+                        style="position: absolute; margin-top: 5px; left: 40px"
+                      >
+                        mdi-close
+                      </v-icon>
+                    </v-col>
+                  </v-row>
+
+                  <v-row align="center" justify="space-around">
+                    <v-col cols="12" sm="12" md="12" v-if="imagepreview === ''">
+                      <v-file-input
+                        label="Imágenes secundarias"
                         chips
                         v-model="primaryImagePreview"
                         accept="image/*"
@@ -149,8 +179,18 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        <v-icon small @click="editItem(item)" class="mr-2">mdi-pencil</v-icon>
+        <v-icon small @click="deleteItem(item)" class="mr-2">mdi-delete</v-icon>
+        <v-icon
+          small
+          @click="desactivateItem(item)"
+          class="mr-2"
+          v-if="item.state === 1"
+          >mdi-eye-off</v-icon
+        >
+        <v-icon small @click="activateItem(item)" v-if="item.state === 0"
+          >mdi-eye</v-icon
+        >
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -270,6 +310,34 @@ export default {
   },
 
   methods: {
+    desactivateItem(item) {
+      let me = this;
+      let header = { token: this.$store.state.token };
+      let configuration = { headers: header };
+      axios
+        .put("producto/desactivate", { _id: item._id }, configuration)
+        .then(function (response) {
+          me.initialize();
+          me.snackbarUpdate = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    activateItem(item) {
+      let me = this;
+      let header = { token: this.$store.state.token };
+      let configuration = { headers: header };
+      axios
+        .put("producto/activate", { _id: item._id }, configuration)
+        .then(function (response) {
+          me.initialize();
+          me.snackbarUpdate = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     getStateColor(state) {
       if (state === 1) return "green";
       else return "red";
@@ -338,7 +406,7 @@ export default {
 
     deleteItem(item) {
       const index = this.productsArray.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
+      confirm("Estás a punto de eliminar el producto ¿Continuar?") &&
         this.desserts.splice(index, 1);
     },
 

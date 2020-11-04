@@ -76,7 +76,7 @@
         </v-snackbar>
 
         <v-snackbar v-model="snackbarError" color="warning">
-          <p>Ha ocurrido un error, por favor actualice la página e intentelo nuevamenrte.</p>
+          <p>Ha ocurrido un error, por favor actualice la página e intentelo nuevamente.</p>
           <template v-slot:action="{ attrs }">
             <v-btn dark text v-bind="attrs" @click="snackbarError = false">Cerrar</v-btn>
           </template>

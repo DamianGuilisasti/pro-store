@@ -28,7 +28,7 @@
           <div class="pl-6">
             <p class="display-1 mb-0">{{productsArray.name}}</p>
             <v-card-actions class="pa-0">
-              <p class="headline font-weight-light pt-3">{{productsArray.price}} <del style="" class="subtitle-1 font-weight-thin">$80.00</del></p>
+              <p v-if="!catalogMode" class="headline font-weight-light pt-3">{{productsArray.price}} <del style="" class="subtitle-1 font-weight-thin">$80.00</del></p>
               <v-spacer></v-spacer>
               <v-rating v-model="rating" class="" background-color="warning lighten-3"
                         color="warning" dense></v-rating>
@@ -53,7 +53,7 @@
                 :value="1"
                 dense
             ></v-text-field>
-            <v-btn class="primary white--text" outlined tile dense><v-icon>mdi-cart</v-icon> AÑADIR AL CARRITO</v-btn>
+            <v-btn v-if="!catalogMode" class="primary white--text" outlined tile dense><v-icon>mdi-cart</v-icon> AÑADIR AL CARRITO</v-btn>
             <v-btn class="ml-4" outlined tile>ADD TO WISHLIST</v-btn>
 
           </div>
@@ -364,63 +364,82 @@
   </div>
 </template>
 <script>
-  import axios from 'axios';
-    export default {
-        data: () => ({
-            productsArray: [],
-            rating:4.5,
-            breadcrums: [
-                {
-                    text: 'Home',
-                    disabled: false,
-                    href: 'breadcrumbs_home',
-                },
-                {
-                    text: 'Clothing',
-                    disabled: false,
-                    href: 'breadcrumbs_clothing',
-                },
-                {
-                    text: 'T-Shirts',
-                    disabled: true,
-                    href: 'breadcrumbs_shirts',
-                },
-            ],
-            item: 5,
-            items: [
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                    title: 'Lorem ipsum dolor?',
-                    subtitle: "<span class='text--primary'>Ali Connors</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Tincidunt arcu non sodales neque sodales ut etiam. Lectus arcu bibendum at varius vel pharetra. Morbi tristique senectus et netus et malesuada.\n" +
-                        "\n",
-                },
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                    title: 'Lorem ipsum dolor <span class="grey--text text--lighten-1">4</span>',
-                    subtitle: "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-                },
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                    title: 'Lorem ipsum dolor',
-                    subtitle: "<span class='text--primary'>Sandra Adams</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                },
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                    title: 'Lorem ipsum dolor',
-                    subtitle: ""
-                },
-                {
-                    avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                    title: 'Lorem ipsum dolor',
-                    subtitle: "<span class='text--primary'>Britta Holt</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                },
-            ],
-        }),
-          created() {
+import axios from "axios";
+export default {
+  data: () => ({
+    catalogMode: null,
+    productsArray: [],
+    rating: 4.5,
+    breadcrums: [
+      {
+        text: "Home",
+        disabled: false,
+        href: "breadcrumbs_home",
+      },
+      {
+        text: "Clothing",
+        disabled: false,
+        href: "breadcrumbs_clothing",
+      },
+      {
+        text: "T-Shirts",
+        disabled: true,
+        href: "breadcrumbs_shirts",
+      },
+    ],
+    item: 5,
+    items: [
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+        title: "Lorem ipsum dolor?",
+        subtitle:
+          "<span class='text--primary'>Ali Connors</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Tincidunt arcu non sodales neque sodales ut etiam. Lectus arcu bibendum at varius vel pharetra. Morbi tristique senectus et netus et malesuada.\n" +
+          "\n",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
+        title:
+          'Lorem ipsum dolor <span class="grey--text text--lighten-1">4</span>',
+        subtitle:
+          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
+        title: "Lorem ipsum dolor",
+        subtitle:
+          "<span class='text--primary'>Sandra Adams</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
+        title: "Lorem ipsum dolor",
+        subtitle: "",
+      },
+      {
+        avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
+        title: "Lorem ipsum dolor",
+        subtitle:
+          "<span class='text--primary'>Britta Holt</span> &mdash; Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      },
+    ],
+  }),
+  created() {
     this.initialize();
     this.categorySelect();
+    this.getCatalogMode();
   },
-     methods: { //hacer un query al id con el ID
+  methods: {
+    getCatalogMode() {
+      let me = this;
+      axios
+        .get("configuracion/list")
+        .then(function (response) {
+          me.catalogMode = response.data[0].catalogMode;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    //hacer un query al id con el ID
     initialize() {
       let me = this;
       let productId = this.$route.params.id;
@@ -451,6 +470,6 @@
           console.log(error);
         });
     },
-  }   
-    }
+  },
+};
 </script>

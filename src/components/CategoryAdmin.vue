@@ -165,7 +165,7 @@ export default {
       let me = this;
       let categoryId = item._id;
 
-      confirm("¿Estás seguro/a de querer eliminar esta categoría?") &&
+      confirm("Estás a punto de eliminar la categoría ¿Continuar?") &&
         axios
           .delete("categoria/remove", {
             params: { id: categoryId },

@@ -30,9 +30,7 @@ export default {
       axios
         .get("configuracion/list")
         .then(function (response) {
-          if (response.data.length > 0) {
-            me.dataId = response.data[0]._id;
-          } else {
+          if (response.data.length == 0) {
             axios
               .post("configuracion/add", {
                 socialMedia: {
@@ -43,11 +41,9 @@ export default {
                   youtube: "",
                 },
                 footerInfo: "",
-                aboutInfo: ""
+                aboutInfo: "",
               })
-              .then(function (response) {
-                //me.dataId = response.data._id;
-              })
+              .then(function (response) {})
               .catch(function (error) {
                 console.log(error);
               });
