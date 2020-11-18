@@ -449,6 +449,10 @@ export default {
         formData.append("price", this.editedItem.price);
         formData.append("file", this.editedItem.image); //de acá me está tomando el single('file')
 
+        for (var pair of formData.entries()) {
+          console.log(pair[0] + ", " + pair[1]);
+        }
+
         axios
           .post("producto/add", formData, {
             headers: {

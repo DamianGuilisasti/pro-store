@@ -60,7 +60,7 @@
         </v-card>
       </v-menu>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-bottom-navigation :value="activeBtn" color="primary" horizontal>
         <a href="/" class="v-btn">
           <span>Inicio</span>
@@ -95,7 +95,7 @@
           <span>Contacto</span>
         </v-btn>
       </v-bottom-navigation>
-    </v-content>
+    </v-main>
     <router-view />
     <v-footer :padless="true">
       <v-card flat tile width="100%" class="secondary white--text text-center">
@@ -246,7 +246,7 @@ export default {
 </script>
 
 <style scoped>
-.v-main .v-content {
+.v-main .v-main {
   padding: 0px 0px 0px !important;
 }
 .pointercursor {
