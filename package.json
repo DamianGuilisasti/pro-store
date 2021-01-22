@@ -26,6 +26,7 @@
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
     "morgan": "^1.10.0",
+    "node-sass": "^5.0.0",
     "nodemon": "^2.0.4",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",

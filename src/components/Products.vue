@@ -114,12 +114,12 @@
 
           <div class="row text-center">
             <div
-              class="col-md-3 col-sm-6 col-xs-12"
+              class="col-md-4 col-sm-6 col-lg-3 col-xs-12"
               :key="pro.id"
               v-for="pro in ArrayActivate"
             >
               <v-hover v-slot:default="{ hover }">
-                <v-card class="mx-auto" color="grey lighten-4" max-width="600">
+                <v-card class="mx-auto product" max-width="600">
                   <v-img
                     class="white--text align-end"
                     :aspect-ratio="16 / 9"
@@ -151,7 +151,12 @@
                     </div>
                     <div v-if="!catalogMode">${{ pro.price }}</div>
                   </v-card-text>
-                  <v-btn>AGREGAR AL CARRITO</v-btn>
+                  <AddToCart
+                    :productid="pro._id"
+                    :name="pro.name"
+                    :price="pro.price"
+                    :image="pro.primaryimage.imageURL"
+                  />
                 </v-card>
               </v-hover>
             </div>
@@ -175,8 +180,12 @@
 }
 </style>
 <script>
+import AddToCart from "./AddToCart";
 import axios from "axios";
 export default {
+  components: {
+    AddToCart,
+  },
   data: () => ({
     catalogMode: null,
     ArrayActivate: [],
@@ -294,9 +303,14 @@ export default {
       //   .catch(function (error) {
       //     console.log(error);
       //   });
-
       // return this.ArrayDesactivate;
     },
   },
 };
 </script>
+
+<style lang="scss">
+.product {
+  box-shadow: none !important;
+}
+</style>

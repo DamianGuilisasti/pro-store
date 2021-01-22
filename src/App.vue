@@ -3,23 +3,35 @@
     <v-main>
       <router-view></router-view>
     </v-main>
+    <div class="text-center">
+      <!-- se quito el ma-2 -->
+      <v-snackbar v-model="snackbar.showing" :color="snackbar.color">
+        <p>{{ snackbar.text }}</p>
+        <template v-slot:action="{ attrs }">
+          <v-btn dark text v-bind="attrs" @click="snackbar.showing = false"
+            >Cerrar</v-btn
+          >
+        </template>
+      </v-snackbar>
+    </div>
   </v-app>
 </template>
 
 <script>
-import Admin from "./components/Admin";
 import axios from "axios";
+import Vuex, { mapState } from "vuex";
 
 export default {
   name: "App",
 
-  components: {
-    Admin,
-  },
+  components: {},
 
   data: () => ({
     //
   }),
+  computed: {
+    ...mapState(["snackbar"]),
+  },
 
   created() {
     this.firstObjetct();
@@ -56,3 +68,6 @@ export default {
   },
 };
 </script>
+
+
+

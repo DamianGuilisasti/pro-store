@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-carousel hide-delimiters>
       <v-carousel-item
         :src="require('../assets/img/home/slider4.jpg')"
@@ -47,7 +47,7 @@
       </v-carousel-item>
 
     </v-carousel>
-    <div class="pl-4 pr-4 row">
+    <div class="row">
       <div
        class="col-md-6 col-sm-6 col-xs-12"
       >
@@ -339,7 +339,7 @@
         </v-row>
       </v-container>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script>

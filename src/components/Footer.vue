@@ -1,102 +1,5 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      app
-      color="primary"
-      dark
-    >
-      <!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
-
-      <v-toolbar-title style="width: 200px">
-        <a href="/" class="white--text" style="text-decoration: none"
-          >Pro Store</a
-        >
-      </v-toolbar-title>
-      <v-text-field
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="mdi-magnify"
-        label="Buscar producto"
-        class="hidden-sm-and-down pl-10 ml-4"
-      />
-      <v-spacer />
-      <v-btn color="blue" elevation="2" small to="/admin/"
-        >Panel de Administración</v-btn
-      >&nbsp;
-      <v-btn small text to="/account/register">Crear cuenta</v-btn>&nbsp;
-      <v-btn small text to="/account/login">Iniciar Sesion</v-btn>
-
-      <v-menu bottom min-width="300px" rounded offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon x-large>
-            <v-badge content="2" value="2" color="green" overlap>
-              <v-icon>mdi-cart</v-icon>
-            </v-badge>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-list-item-content class="justify-center">
-            <v-row>
-            <v-col cols="6"> <img src="../assets/logo.png" alt="" /></v-col>
-            <v-col cols="6">
-              <h3 class="pt-4">Mochila Everlast</h3>
-              <p class="caption mt-1">1x $2500.00</p></v-col
-            >
-            </v-row>
-            <div class="mx-auto text-center">
-              <v-divider class="my-3"></v-divider>
-              <v-row>
-              <v-col cols="6"><h4>SUBTOTAL: </h4></v-col>
-              <v-col cols="6"><h2>$2500.00 </h2></v-col>
-              </v-row>
-              <v-btn depressed rounded text> Ver carrito </v-btn>
-              <v-btn class="mt-3" color="primary" block depressed @click=""> 
-                Ir a pagar
-              </v-btn>
-            </div>
-          </v-list-item-content>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
-    <v-main>
-      <v-bottom-navigation :value="activeBtn" color="primary" horizontal>
-        <a href="/" class="v-btn">
-          <span>Inicio</span>
-        </a>
-        <a href="/nosotros" class="v-btn">
-          <span>Nosotros</span>
-        </a>
-        <v-menu open-on-hover offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="on" href="/productos">
-              <span>Productos</span>
-            </v-btn>
-          </template>
-
-          <v-card class="mx-auto" max-width="300" tile>
-            <v-list>
-              <v-subheader>Categorías</v-subheader>
-              <v-list-item-group v-model="item" color="primary">
-                <v-list-item v-for="(item, i) in categories" :key="i">
-                  <v-list-item-content>
-                    <v-list-item-title
-                      @click="goCategory(index, item)"
-                      v-text="item.name"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-card>
-        </v-menu>
-        <v-btn href="/contacto">
-          <span>Contacto</span>
-        </v-btn>
-      </v-bottom-navigation>
-    </v-main>
-    <router-view />
+  <div>
     <v-footer :padless="true">
       <v-card flat tile width="100%" class="secondary white--text text-center">
         <v-card-text>
@@ -190,15 +93,46 @@
         </v-card-text>
       </v-card>
     </v-footer>
-  </v-app>
+    <v-bottom-navigation
+      fixed
+      dark
+      v-model="value"
+      :background-color="color"
+      class="hidden-sm-and-up"
+    >
+      <v-btn>
+        <span>Productos</span>
+
+        <v-icon>mdi-format-list-numbered</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Carrito</span>
+        <v-badge content="0" value="0" color="green" overlap>
+          <v-icon>mdi-cart</v-icon>
+        </v-badge>
+      </v-btn>
+
+      <v-btn>
+        <span>Pago</span>
+
+        <v-icon>mdi-credit-card-outline</v-icon>
+      </v-btn>
+      <v-btn>
+        <span>Ingresar</span>
+
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+  </div>
 </template>
+
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
-      categories: [],
-      activeBtn: 1,
+      value: 1,
       configurationArray: [],
       configurationArray: {
         socialMedia: {
@@ -215,6 +149,23 @@ export default {
     this.initialize();
     this.getCategories();
   },
+  computed: {
+    color() {
+      switch (this.value) {
+        case 0:
+          return "blue-grey";
+        case 1:
+          return "teal";
+        case 2:
+          return "brown";
+        case 3:
+          return "indigo";
+        default:
+          return "blue-grey";
+      }
+    },
+  },
+
   methods: {
     initialize() {
       let me = this;
@@ -246,12 +197,4 @@ export default {
 </script>
 
 <style scoped>
-.v-main .v-main {
-  padding: 0px 0px 0px !important;
-}
-.pointercursor {
-  cursor: pointer;
-  height: 42px;
-  width: 42px;
-}
 </style>

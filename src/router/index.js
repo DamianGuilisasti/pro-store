@@ -1,196 +1,199 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Layout from '@/views/Layout'
-import Admin from '@/views/Admin'
-import Home from '@/views/Home'
-import About from '@/views/About'
-import Contact from '@/views/Contact'
-import Cart from '@/views/Cart'
-import Dashboard from '@/components/Dashboard'
-import Orders from '@/components/Orders'
-import Products from '@/components/Products'
-import Product from '@/views/Product'
-import Users from '@/components/Users'
-import Clients from '@/components/Clients'
-import Reports from '@/components/Reports'
-import Customize from '@/components/Customize'
-import Settings from '@/components/Settings'
-import ProductsAdmin from '@/components/ProductsAdmin'
-import CategoryAdmin from '@/components/CategoryAdmin'
-import RegisterClient from '@/components/RegisterClient'
-import LoginAdmin from '@/components/LoginAdmin'
-import LoginClient from '@/components/LoginClient'
-import ErrorPath from '@/components/ErrorPath'
-import SocialMediaAdmin from '@/components/SocialMediaAdmin'
-import AboutUsAdmin from '@/components/AboutUsAdmin'
-import CatalogAdmin from '@/components/CatalogAdmin'
-import store from '../store'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Layout from "@/views/Layout";
+import Admin from "@/views/Admin";
+import Home from "@/views/Home";
+import About from "@/views/About";
+import Contact from "@/views/Contact";
+import Cart from "@/views/Cart";
+import Dashboard from "@/components/Dashboard";
+import Orders from "@/components/Orders";
+import Products from "@/components/Products";
+import Product from "@/views/Product";
+import Users from "@/components/Users";
+import AdminClients from "@/components/AdminClients";
+import Reports from "@/components/Reports";
+import Customize from "@/components/Customize";
+import Settings from "@/components/Settings";
+import ProductsAdmin from "@/components/ProductsAdmin";
+import CategoryAdmin from "@/components/CategoryAdmin";
+import RegisterClient from "@/components/RegisterClient";
+import LoginAdmin from "@/views/LoginAdmin";
+import LoginClient from "@/components/LoginClient";
+import ErrorPath from "@/components/ErrorPath";
+import SocialMediaAdmin from "@/components/SocialMediaAdmin";
+import AboutUsAdmin from "@/components/AboutUsAdmin";
+import CatalogAdmin from "@/components/CatalogAdmin";
+import getProductsAdmin from "@/components/getProductsAdmin";
+import store from "../store";
 
-
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '*',
+    path: "*",
     component: ErrorPath,
   },
   {
-    path: '/',
-    component: Layout,
-    name: 'Layout',
-    children: [
-      {
-        path: 'login',
-        component: LoginAdmin,
-        name: 'LoginAdmin'
-      },
-      {
-        path: '/',
-        component: Home,
-        name: 'Home'
-      },
-      {
-        path: '/nosotros',
-        component: About,
-        name: 'About'
-      },
-      {
-        path: '/productos',
-        component: Products,
-        name: 'Products'
-      },
-      {
-        path: 'producto/:id',
-        component: Product,
-        name: 'Product'
-      },
-      {
-        path: '/contacto',
-        component: Contact,
-        name: 'Contact'
-      }
-      ,
-      {
-        path: '/carrito',
-        component: Cart,
-        name: 'Cart'
-      }
-    ]
+    path: "/login",
+    component: LoginAdmin,
+    name: "LoginAdmin",
   },
   {
-    path: '/admin',
+    path: "/",
+    component: Layout,
+    name: "Layout",
+    children: [
+      {
+        path: "/",
+        component: Home,
+        name: "Home",
+      },
+      {
+        path: "/nosotros",
+        component: About,
+        name: "About",
+      },
+      {
+        path: "/productos",
+        component: Products,
+        name: "Products",
+      },
+      {
+        path: "producto/:id",
+        component: Product,
+        name: "Product",
+      },
+      {
+        path: "/contacto",
+        component: Contact,
+        name: "Contact",
+      },
+      {
+        path: "/carrito",
+        component: Cart,
+        name: "Cart",
+      },
+    ],
+  },
+  {
+    path: "/admin",
     component: Admin,
-    name: 'Admin',
+    name: "Admin",
     meta: {
-      SellerRol: true
+      SellerRol: true,
     },
     children: [
       {
-        path: '/',
+        path: "/",
         component: Dashboard,
-        name: 'Dashboard'
+        name: "Dashboard",
       },
       {
-        path: 'pedidos',
+        path: "pedidos",
         component: Orders,
-        name: 'Orders'
+        name: "Orders",
       },
       {
-        path: 'productos',
+        path: "productos",
         component: ProductsAdmin,
-        name: 'ProductsAdmin'
+        name: "ProductsAdmin",
       },
       {
-        path: 'categorias',
+        path: "categorias",
         component: CategoryAdmin,
-        name: 'CategoryAdmin'
+        name: "CategoryAdmin",
       },
       {
-        path: 'clientes',
-        component: Clients,
-        name: 'Clients'
+        path: "getproducts",
+        component: getProductsAdmin,
+        name: "getProductsAdmin",
       },
       {
-        path: 'usuarios',
+        path: "Clientes",
+        component: AdminClients,
+        name: "AdminClients",
+      },
+      {
+        path: "usuarios",
         component: Users,
-        name: 'Users'
+        name: "Users",
       },
       {
-        path: 'informes',
+        path: "informes",
         component: Reports,
-        name: 'Reports',
+        name: "Reports",
         meta: {
-          AdminRol: true
+          AdminRol: true,
         },
       },
       {
-        path: 'personalizacion',
+        path: "personalizacion",
         component: Customize,
-        name: 'Customize',
+        name: "Customize",
         meta: {
-          AdminRol: true
+          AdminRol: true,
         },
       },
       {
-        path: 'configuracion',
+        path: "configuracion",
         component: Settings,
-        name: 'Settings',
+        name: "Settings",
         meta: {
-          AdminRol: true
+          AdminRol: true,
         },
       },
       {
-        path: 'configuracion/redes-sociales',
+        path: "configuracion/redes-sociales",
         component: SocialMediaAdmin,
-        name: 'SocialMediaAdmin'
+        name: "SocialMediaAdmin",
       },
       {
-        path: 'configuracion/informacion-nosotros',
+        path: "configuracion/informacion-nosotros",
         component: AboutUsAdmin,
-        name: 'AboutUsAdmin'
+        name: "AboutUsAdmin",
       },
       {
-        path: 'configuracion/catalogo',
+        path: "configuracion/catalogo",
         component: CatalogAdmin,
-        name: 'CatalogAdmin'
-      }
-    ]
+        name: "CatalogAdmin",
+      },
+    ],
   },
   {
-    path: '/account',
+    path: "/account",
     component: Layout,
-    name: 'Account',
+    name: "Account",
     children: [
       {
-        path: 'register',
+        path: "register",
         component: RegisterClient,
-        name: 'Register'
+        name: "Register",
       },
       {
-        path: 'login',
+        path: "login",
         component: LoginClient,
-        name: 'Login'
-      }
-    ]
-  }
-]
-
+        name: "Login",
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-router.beforeEach((to, from, next) => { //to hacia donde quiero ir - from desde donde vengo y next es para que continue haciendo lo que estaba haciendo.
-  const rutaProtegida = to.matched.some(record => record.meta.SellerRol);
-  if(rutaProtegida && store.state.token === ''){
-    next({name: 'LoginAdmin'});
-  }
-  else{
+router.beforeEach((to, from, next) => {
+  //to hacia donde quiero ir - from desde donde vengo y next es para que continue haciendo lo que estaba haciendo.
+  const rutaProtegida = to.matched.some((record) => record.meta.SellerRol);
+  if (rutaProtegida && store.state.token === "") {
+    next({ name: "LoginAdmin" });
+  } else {
     next();
   }
   next();
-})
+});
 
-export default router
+export default router;
